@@ -8,7 +8,7 @@ int main() {
     int arr[2001];
 
     // Read the file, returns integer array
-    readFile(arr, "../input/input1.txt");
+    readFile(arr, "./input/input1.txt");
 
     puts("Welcome to the Challenge One solver for Advent of Code [2021]!");
 
@@ -18,7 +18,6 @@ int main() {
             previous = arr[1];
         } else {
             if (*i == 0) {
-                continue;
             }
             if (*i > previous) {
 //                printf("%d was higher than %d\n", *i, previous);

@@ -10,21 +10,27 @@
         keep = !keep, count++) \
       for(item = (array) + count; keep; keep = !keep)
 
+#define BETWEEN(value, min, max) (value < max && value > min)
+
+struct valueMap {
+    unsigned int value, line;
+};
+
 char * removeNewLine(char* string) {
     string[strcspn(string, "\n")] = 0;
     return string;
 }
 
 int readFileLength(char* fileLocation) {
-    int ch;
+    unsigned int ch;
     int result = 1;
     FILE *fileData;
 
     fileData = fopen(fileLocation, "r");
 
     if (fileData == NULL) {
-        puts("Fatal error; file not found");
-        exit(1);
+        puts("File not found; exiting");
+        exit(EXIT_FAILURE);
     }
 
     while(!feof(fileData))
@@ -39,22 +45,21 @@ int readFileLength(char* fileLocation) {
     return result;
 }
 
-void readFile(int *arr, char* fileLocation) {
+void readFile(unsigned int *arr, char* fileLocation) {
     char* line = NULL;
-    int i = 0;
+    unsigned int i = 0;
     FILE *fileData = NULL;
     size_t len = 0;
-    ssize_t read;
 
     fileData = fopen(fileLocation, "r");
 
     // Check if the file exists
     if (fileData == NULL) {
-        puts("Fatal error; file not found");
+        puts("File not found; exiting");
         exit(EXIT_FAILURE);
     }
 
-    while ((read = getline(&line, &len, fileData)) != -1) {
+    while ((getline(&line, &len, fileData)) != -1) {
         i++;
         arr[i] = atoi(line);
     }
@@ -64,3 +69,29 @@ void readFile(int *arr, char* fileLocation) {
         free(line);
 }
 
+void readFileValueMap(struct valueMap *valueMap, char* fileLocation) {
+    FILE *fileData = NULL;
+    unsigned int i = 0;
+    char* line = NULL;
+    size_t len = 0;
+
+    fileData = fopen(fileLocation, "r");
+
+    // Check if the file exists
+    if (fileData == NULL) {
+        puts("File not found; exiting");
+        exit(EXIT_FAILURE);
+    }
+
+    while ((getline(&line, &len, fileData)) != -1) {
+        struct valueMap valueMapResult;
+        valueMapResult.value = atoi(line);
+        valueMapResult.line = i;
+        i++;
+        valueMap[i] = valueMapResult;
+    }
+
+    fclose(fileData);
+    if (line)
+        free(line);
+}

@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Ignore build (cmake)
+cmake-build-debug/
+CMakeLists.txt
+
+# Ignore editor files
+.idea/

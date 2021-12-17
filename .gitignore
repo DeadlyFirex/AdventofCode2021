@@ -53,6 +53,7 @@ dkms.conf
 
 # Ignore build (cmake)
 cmake-build-debug/
+cmake-*/
 CMakeLists.txt
 
 # Ignore editor files
